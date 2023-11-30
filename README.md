@@ -73,10 +73,6 @@
 # 🔨 개발 및 협업 환경
 
 
-
-## 현 작성 예정
-
-
 ### Backend
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=flat-square&logo=openjdk&logoColor=white)&nbsp;<img src="https://img.shields.io/badge/Spring-green?style=flat-square&logo=spring&logoColor=white"/>
 &nbsp;<img src="https://img.shields.io/badge/SpringBoot-green?style=flat-square&logo=springboot&logoColor=white"/>
