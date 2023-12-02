@@ -115,7 +115,7 @@
 ![피그마](https://github.com/hyunnn12/CodingTestPractice/assets/119777617/9d27af23-5b1e-4c47-ab88-a77debd5ee02)
 
 # 💬 인터페이스 설계서(API명세서)
-![인터페이스명세서1](/uploads/30994209b462018101e4b8664b577094/인터페이스명세서1.PNG)
-![인터페이스명세서2](/uploads/f2fb45560be7e1f4e94a2b6cd8e01027/인터페이스명세서2.PNG)
+![명세서1](https://github.com/qkrrlgus114/qkrrlgus114/assets/121294224/99197d4b-3872-4554-bf65-4695b30e9352)
+![명세서2](https://github.com/qkrrlgus114/qkrrlgus114/assets/121294224/4b6deddf-9f39-4577-a8c7-5bb362aa22f2)
 
 
