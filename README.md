@@ -135,16 +135,32 @@
 
 
 # 🖼 서비스 화면
-## 추후 모여서 작성 예정
+### 온캐스트 생성을 위한 제목, 테마, 사연, DJ 선택
+![Frame 112](https://github.com/hyunnn12/onAIr/assets/119777617/0368f6de-cc61-4ae8-950d-a9e5d655daa8)
 
-### gif1 메인화면 - 사연 테마 입력- 온캐스트 생성 완료까지
+### 생성된 온캐스트의 라디오 컴포넌트
+![개인 라디오 DJ페이지](https://github.com/hyunnn12/onAIr/assets/119777617/e43db3a3-67bd-4d2a-8fbd-4e4c7e591b49)
 
-### gif2 마이페이지 - 온캐스트 재생 - 스크립트, 음악 재생까지
+### 생성된 온캐스트의 음악 컴포넌트
+![라디오 음악 페이지](https://github.com/hyunnn12/onAIr/assets/119777617/c1342e1e-c67c-4ee2-a343-04f2539a4ebd)
 
-### gif3 마이페이지 - 음악 플레이리스트에 추가 - 플레이어로 재생 - 백그라운드 재생까지(메인화면으로)
+### 저장된 온캐스트들 이 페이지에서 다시 재생 및 라이브로 공유 가능
+![마이페이지 - 라디오](https://github.com/hyunnn12/onAIr/assets/119777617/381641e1-835b-4ad4-9fea-2fbb557393e9)
 
-### gif4 라이브 페이지 - 편성표 - 채팅
+### 음악 스트리밍까지 가능하여 원하는 플레이리스트들을 만들어 언제나 들을 수 있다.
+![마이페이지-음악 보관함](https://github.com/hyunnn12/onAIr/assets/119777617/1697c304-8833-44c3-82a9-4f76140f910d)
 
+### 음악 플레이어-플레이리스트들을 재생하는 페이지
+![플레이어페이지](https://github.com/hyunnn12/onAIr/assets/119777617/b10c0193-7f13-41ff-89c6-4376a675b824)
+
+### 라이브 페이지-공유된 온캐스트로 다 함께 실시간으로 감상 가능한 라디오
+![라이브 라디오 DJ페이지](https://github.com/hyunnn12/onAIr/assets/119777617/36c1e391-e346-4c75-93e7-143194ac6625)
+
+### 라이브 페이지-공유된 온캐스트의 음악들을 실시간으로 다함께 감상 가능
+![라이브 라디오 목록 페이지](https://github.com/hyunnn12/onAIr/assets/119777617/9455ca60-f9e4-4c30-ae68-fe4cb2bf52e0)
+
+### 라이브 페이지-실시간으로 라이브 페이지에 있는 유저들끼리 소통 가능
+![라이브 라디오 대화 페이지](https://github.com/hyunnn12/onAIr/assets/119777617/04fb34e6-1063-4682-854e-f518414dcc15)
 
 # 💬 시스템 아키텍처
 ![system_architecture](https://github.com/hyunnn12/CodingTestPractice/assets/119777617/d549215c-c5ca-40f0-beb5-c876e8655ad8)
