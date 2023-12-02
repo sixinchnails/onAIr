@@ -66,8 +66,12 @@
 
 # 🔗 주요 기술
 
-## 시환, 재용 작성 예정
-
+- AWS EC2 5대의 서버로 Spark 클러스터 구축
+- NameNode 1대, Backup NameNode 1대, DataNode 3대
+- YARN과 ZOOKEEPER는 구동 중인 NameNode 상 운영
+- 800만 개의 노래 데이터를 HDFS에 적재하여 분산 병렬 처리
+- 클러스터 실행, 종료, 재실행 스크립트 작성
+![IMAGE_DESCRIPTION](https://file.notion.so/f/f/93f6a052-c8ca-4250-8609-aadf4d306770/53b4ea7c-3a5b-47a5-9dd2-2d712286b4d0/Untitled.png?id=bab91b59-07cd-46a1-babf-c2eb4b9dcd96&table=block&spaceId=93f6a052-c8ca-4250-8609-aadf4d306770&expirationTimestamp=1701597600000&signature=pmFZ0pEwiFZ3-0E9yQ2WeWasMvajgH6Bxy3kDdTdWf4&downloadName=Untitled.png)
 
 
 # 🔨 개발 및 협업 환경
