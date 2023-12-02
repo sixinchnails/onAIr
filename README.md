@@ -71,6 +71,7 @@
 - YARN과 ZOOKEEPER는 구동 중인 NameNode 상 운영
 - 800만 개의 노래 데이터를 HDFS에 적재하여 분산 병렬 처리
 - 클러스터 실행, 종료, 재실행 스크립트 작성
+</br>
 ![IMAGE_DESCRIPTION](./frontend/src/assets/demo1.png)
 
 ## 2. PCA와 K-평균 군집화를 활용한 음악 추천 기능
@@ -78,6 +79,7 @@
 - PySpark와 분산 병렬 처리를 이용한 800만 개의 노래 데이터를 K-평균 군집화
 - 실루엣(Silhouette) 계수 기반으로 최적의 K 값 활용
 - 사용자 입력 데이터가 속한 클러스터 내 중심점에 가까운 노래 목록 일부 추출
+</br>
 ![IMAGE_DESCRIPTION](./frontend/src/assets/demo2.png)
 ![IMAGE_DESCRIPTION](./frontend/src/assets/demo3.png)
 
@@ -89,6 +91,7 @@
 - 앙상블 모델인 랜덤 포레스트(**sklearn.ensemble.RandomForestClassifier)**를 기반으로 각 노래 특성 별 중요도를 측정
 - 전체 특성 중 일부를 제거하여 모델의 성능이 얼마나 변화하는가 기준으로 중요도 계산
 - 특성 중요도는 클러스터마다 개별 측정
+</br>
 ![IMAGE_DESCRIPTION](./frontend/src/assets/demo4.png)
 
 ## 5. 데이터 수집기 구현 및 HDFS, YARN, ZOOKEEPER 서버 환경 구축
