@@ -1,4 +1,5 @@
-![Thumbnail](https://github.com/hyunnn12/onAIr/assets/119777617/b57c97bb-886b-44d6-a100-1d5058036fd0)
+![Final 2IZON (1)](https://github.com/hyunnn12/onAIr/assets/119777617/5f716c20-2bf6-4df3-826e-1d76256b2119)
+
 
 </br>
 
@@ -136,31 +137,39 @@
 
 # 🖼 서비스 화면
 ### 온캐스트 생성을 위한 제목, 테마, 사연, DJ 선택
-![Frame 112](https://github.com/hyunnn12/onAIr/assets/119777617/0368f6de-cc61-4ae8-950d-a9e5d655daa8)
+![Frame 112](https://github.com/hyunnn12/onAIr/assets/119777617/76b4d6ae-4b9c-4033-b138-5f60385fccce)
+
 
 ### 생성된 온캐스트의 라디오 컴포넌트
-![개인 라디오 DJ페이지](https://github.com/hyunnn12/onAIr/assets/119777617/e43db3a3-67bd-4d2a-8fbd-4e4c7e591b49)
+![개인 라디오 DJ페이지](https://github.com/hyunnn12/onAIr/assets/119777617/c9c8010a-6c8c-427d-88e6-a3d37a013aa7)
+
 
 ### 생성된 온캐스트의 음악 컴포넌트
-![라디오 음악 페이지](https://github.com/hyunnn12/onAIr/assets/119777617/c1342e1e-c67c-4ee2-a343-04f2539a4ebd)
+![라디오 음악 페이지](https://github.com/hyunnn12/onAIr/assets/119777617/581807ab-c7fd-471f-af36-87229a5fd6fd)
+
 
 ### 저장된 온캐스트들 이 페이지에서 다시 재생 및 라이브로 공유 가능
-![마이페이지 - 라디오](https://github.com/hyunnn12/onAIr/assets/119777617/381641e1-835b-4ad4-9fea-2fbb557393e9)
+![마이페이지 - 라디오](https://github.com/hyunnn12/onAIr/assets/119777617/53f09c63-6cdb-40e6-9ab7-71f81ef1feed)
+
 
 ### 음악 스트리밍까지 가능하여 원하는 플레이리스트들을 만들어 언제나 들을 수 있다.
-![마이페이지-음악 보관함](https://github.com/hyunnn12/onAIr/assets/119777617/1697c304-8833-44c3-82a9-4f76140f910d)
+![마이페이지-음악 보관함](https://github.com/hyunnn12/onAIr/assets/119777617/f4548a86-8856-4db7-b954-ea0e0bbb79b5)
+
 
 ### 음악 플레이어-플레이리스트들을 재생하는 페이지
-![플레이어페이지](https://github.com/hyunnn12/onAIr/assets/119777617/b10c0193-7f13-41ff-89c6-4376a675b824)
+![플레이어페이지](https://github.com/hyunnn12/onAIr/assets/119777617/babc6b9e-6e63-4efd-a350-f0057f8bc031)
 
 ### 라이브 페이지-공유된 온캐스트로 다 함께 실시간으로 감상 가능한 라디오
-![라이브 라디오 DJ페이지](https://github.com/hyunnn12/onAIr/assets/119777617/36c1e391-e346-4c75-93e7-143194ac6625)
+![라이브 라디오 DJ페이지](https://github.com/hyunnn12/onAIr/assets/119777617/e52ef205-e999-42df-86d6-c261f26a1e93)
+
 
 ### 라이브 페이지-공유된 온캐스트의 음악들을 실시간으로 다함께 감상 가능
-![라이브 라디오 목록 페이지](https://github.com/hyunnn12/onAIr/assets/119777617/9455ca60-f9e4-4c30-ae68-fe4cb2bf52e0)
+![라이브 라디오 목록 페이지](https://github.com/hyunnn12/onAIr/assets/119777617/c7e975cc-76d5-4b90-8b2b-6c95e31c6f1a)
+
 
 ### 라이브 페이지-실시간으로 라이브 페이지에 있는 유저들끼리 소통 가능
-![라이브 라디오 대화 페이지](https://github.com/hyunnn12/onAIr/assets/119777617/04fb34e6-1063-4682-854e-f518414dcc15)
+![라이브 라디오 대화 페이지](https://github.com/hyunnn12/onAIr/assets/119777617/07687ac6-eaa0-4e4d-8509-2161b4dae186)
+
 
 # 💬 시스템 아키텍처
 ![system_architecture](https://github.com/hyunnn12/CodingTestPractice/assets/119777617/d549215c-c5ca-40f0-beb5-c876e8655ad8)
