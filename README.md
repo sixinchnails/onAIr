@@ -71,7 +71,7 @@
 - YARN과 ZOOKEEPER는 구동 중인 NameNode 상 운영
 - 800만 개의 노래 데이터를 HDFS에 적재하여 분산 병렬 처리
 - 클러스터 실행, 종료, 재실행 스크립트 작성
-![IMAGE_DESCRIPTION](https://file.notion.so/f/f/93f6a052-c8ca-4250-8609-aadf4d306770/53b4ea7c-3a5b-47a5-9dd2-2d712286b4d0/Untitled.png?id=bab91b59-07cd-46a1-babf-c2eb4b9dcd96&table=block&spaceId=93f6a052-c8ca-4250-8609-aadf4d306770&expirationTimestamp=1701597600000&signature=pmFZ0pEwiFZ3-0E9yQ2WeWasMvajgH6Bxy3kDdTdWf4&downloadName=Untitled.png)
+![IMAGE_DESCRIPTION](https://github.com/pum005/onAir/blob/master/frontend/src/assets/demo1.png)
 
 
 # 🔨 개발 및 협업 환경
