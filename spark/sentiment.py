@@ -1,28 +1,24 @@
 from transformers import DistilBertConfig, DistilBertTokenizer, DistilBertForSequenceClassification
 from transformers import XLMRobertaConfig, XLMRobertaForSequenceClassification, XLMRobertaTokenizer
-import torch
+import torch, configparser
 import sentencepiece as spm
+
+config = configparser.ConfigParser()
+config.read('config.ini')
 
 def vad_calculate(sentence):
     #directory = "/usr/local/XLM-RoBERTa-base_MSE/"
     #directory = "C:/Users/SSAFY/Downloads/DistilBERT MSE/DistilBERT MSE/"
-    directory = "./utils/"
+    directory = config['MODEL']['directory']
 
     output_model_file = directory + "pytorch_model.bin"
     output_config_file = directory + "config.json"
     output_vocab_file = directory + "vocab.txt"
 
-    # config = DistilBertConfig.from_json_file(output_config_file)
-    # model = DistilBertForSequenceClassification(config)
-    # state_dict = torch.load(output_model_file, map_location=torch.device('cpu'))
-    # model.load_state_dict(state_dict, strict=False)
-    # tokenizer = DistilBertTokenizer(output_vocab_file)
-
     config = XLMRobertaConfig.from_json_file(output_config_file)
     model = XLMRobertaForSequenceClassification(config)
     state_dict = torch.load(output_model_file, map_location=torch.device('cpu'))
     model.load_state_dict(state_dict, strict=False)
-    #tokenizer = DistilBertTokenizer(output_vocab_file)
     tokenizer = XLMRobertaTokenizer.from_pretrained("xlm-roberta-base")
 
     #입력 문장
@@ -38,8 +34,6 @@ def vad_calculate(sentence):
     result = model.forward(inputs['input_ids'], inputs['attention_mask'])
 
     # Apply softmax to get probabilities
-    #probabilities = torch.sigmoid(logits)
-    # probabilities = torch.nn.functional.hardsigmoid(result.logits)
     probabilities = torch.nn.functional.sigmoid(result.logits)
 
     # Convert probabilities to numpy array
