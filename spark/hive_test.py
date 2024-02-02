@@ -1,14 +1,25 @@
 from pyhive import hive
 from datetime import datetime
 import pandas as pd
+import configparser
+
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+host = config['DEFAULT']['host']
+port = config['DEFAULT']['port']
+username = config['DEFAULT']['username']
+password = config['DEFAULT']['password']
+database = config['DEFAULT']['database']
+auth = config['DEFAULT']['auth']
 
 hive_con = hive.Connection(
-    host='3.36.124.199',
-    port=10000,
-    username='APP',
-    password='mine',
-    database='default',
-    auth='LDAP'
+    host=host,
+    port=port,
+    username=username,
+    password=password,
+    database=database,
+    auth=auth
 )
 
 cursor = hive_con.cursor()
