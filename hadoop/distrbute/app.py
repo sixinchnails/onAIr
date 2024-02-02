@@ -13,13 +13,23 @@ app = Flask(__name__)
 api = Api(app)
 CORS(app)
 
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+host = config['DEFAULT']['host']
+port = config['DEFAULT']['port']
+username = config['DEFAULT']['username']
+password = config['DEFAULT']['password']
+database = config['DEFAULT']['database']
+auth = config['DEFAULT']['auth']
+
 hive_con = hive.Connection(
-    host='52.78.65.222',
-    port=10000,
-    username='APP',
-    password='mine',
-    database='default',
-    auth='LDAP'
+    host=host,
+    port=port,
+    username=username,
+    password=password,
+    database=database,
+    auth=auth
 )
 
 
@@ -55,7 +65,6 @@ def ssafy():
 @app.route('/hadoop/songs', methods=['POST'])
 @expects_json(schema)
 def recommendation():
-    print(1)
     global pca_model
     req = request.get_json()
 
