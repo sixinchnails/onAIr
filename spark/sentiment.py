@@ -7,8 +7,6 @@ config = configparser.ConfigParser()
 config.read('config.ini')
 
 def vad_calculate(sentence):
-    #directory = "/usr/local/XLM-RoBERTa-base_MSE/"
-    #directory = "C:/Users/SSAFY/Downloads/DistilBERT MSE/DistilBERT MSE/"
     directory = config['MODEL']['directory']
 
     output_model_file = directory + "pytorch_model.bin"
