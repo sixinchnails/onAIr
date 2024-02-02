@@ -84,6 +84,6 @@ kpop_df = kpop_df[kpop_df['popularity'].notna()]
 final_df = pd.concat([pop_df, kpop_df], axis=0)
 final_df = final_df[final_df['id'].notna()]
 
-output_dir = config['SPARK']['output_dir']
+global_song_input = config['SPARK']['global_song_input']
 
-final_df.to_csv(output_dir, sep=',', index=False)
+final_df.to_csv(global_song_input, sep=',', index=False)
