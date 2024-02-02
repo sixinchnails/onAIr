@@ -6,9 +6,12 @@ from spotipy.oauth2 import SpotifyOAuth
 
 from spotifyAPI import getAPIObject
 
+config = configparser.ConfigParser()
+config.read('config.ini')
+
 pd.set_option('display.max_rows', 10)
 pd.set_option('display.max_columns', 10)
-sqlite_file = "C:/Users/SSAFY/Downloads/archive/spotify.sqlite"
+sqlite_file = config['SPOTIFY']['sqlite_file']
 
 conn = sqlite3.connect(sqlite_file)
 conn.text_factory = bytes
@@ -37,22 +40,14 @@ pop_df = pop_df[pop_df['id'].notna()]
 pop_df['id'] = pop_df['id'].str.decode('utf-8')
 
 #레코드 읽기
-#cursor.execute(sql_read)
-#rows = cursor.fetchall()
-kpop_df = pd.read_csv ('C:/Users/SSAFY/Downloads/karchive/single_album_track_data.csv')
+kpop_csv_dir = config['SPOTIFY']['track_data']
+kpop_df = pd.read_csv (kpop_csv_dir)
 
 kpop_df = kpop_df.drop('Unnamed: 0', axis=1).drop('Artist', axis=1).drop('Artist_Id', axis=1).drop('Single_Album_Id', axis=1).drop('Single_Album_Name', axis=1).drop('Track_Title', axis=1).drop('key', axis=1).drop('mode', axis=1).drop('duration_ms', axis=1).drop('time_signature', axis=1)
 kpop_df.rename(columns={"Track_Id":"id"}, inplace=True)
 kpop_df['popularity'] = None
 
 kpop_df = kpop_df[kpop_df['id'].notna()]
-
-#final_df = pd.concat([pop_df, kpop_df])
-#final_df['id'] = final_df['id'].str.decode('utf-8')
-# final_df.to_csv('C:/Users/최중국/Downloads/map1001.csv', sep=',', index=False)
-
-#컬럼 별로 잘 들어갔는지 체크
-#verify_row = final_df.loc[final_df['id'] == '3szqGZtiiS8hmIPcT9qBgh']
 
 end = time.time()
 print((end - start) * 10 ** 3, "ms")
@@ -89,4 +84,6 @@ kpop_df = kpop_df[kpop_df['popularity'].notna()]
 final_df = pd.concat([pop_df, kpop_df], axis=0)
 final_df = final_df[final_df['id'].notna()]
 
-final_df.to_csv('C:/Users/SSAFY/Downloads/map1001.csv', sep=',', index=False)
+output_dir = config['SPARK']['output_dir']
+
+final_df.to_csv(output_dir, sep=',', index=False)
