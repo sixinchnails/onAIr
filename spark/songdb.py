@@ -1,4 +1,4 @@
-import sqlite3, time
+import sqlite3, time, configparser
 from sklearn.decomposition import PCA
 import pandas as pd, pickle as pk
 from sklearn.preprocessing import MinMaxScaler
@@ -6,42 +6,12 @@ from sklearn.preprocessing import MinMaxScaler
 pd.set_option('display.max_rows', 10)
 pd.set_option('display.max_columns', 10)
 
-final_df = pd.read_csv('C:/Users/SSAFY/Downloads/map1001.csv')
+config = configparser.ConfigParser()
+config.read('config.ini')
 
-"""
-sqlite_file = "C:/Users/최중국/Downloads/archive/spotify.sqlite"
+pre_hdfs_input = config['SPARK']['pre_hdfs_input']
 
-conn = sqlite3.connect(sqlite_file)
-conn.text_factory = bytes
-
-cursor = conn.cursor()
-
-#컬럼명 읽기
-cursor.execute("PRAGMA table_info(audio_features)")
-
-columns = cursor.fetchall()
-
-column_names = [column[1].decode('utf-8') for column in columns]
-start = time.time()
-sql_read_features = "SELECT id, acousticness, danceability, energy, instrumentalness, liveness, loudness, speechiness, tempo, valence FROM audio_features LIMIT 1000"
-sql_read_tracks = "SELECT id, popularity from tracks"
-
-#레코드 읽기
-#cursor.execute(sql_read)
-#rows = cursor.fetchall()
-song_df = pd.read_sql_query(sql_read_tracks, conn)
-feat_df = pd.read_sql_query(sql_read_features, conn)
-
-final_df = pd.merge(song_df, feat_df, on='id')
-end = time.time()
-print((end - start) * 10 ** 3, "ms")
-
-final_df['id'] = final_df['id'].str.decode('utf-8')
-final_df.to_csv('C:/Users/SSAFY/Downloads/test.csv', sep=',', index=False)
-
-cursor.close()
-conn.close()
-"""
+final_df = pd.read_csv(pre_hdfs_input)
 
 neg_scaler = MinMaxScaler(feature_range=(-1, 1))
 pos_scaler = MinMaxScaler(feature_range=(0, 1))
@@ -83,4 +53,6 @@ for i, col in enumerate(pca_transformed_df.columns):
 
 pca_transformed_df.rename(columns=column_mapping, inplace=True)
 
-pca_transformed_df.to_csv('C:/Users/SSAFY/Downloads/mapreduce.csv', sep=',', index=False)
+hdfs_input = config['SPARK']['hdfs_input']
+
+pca_transformed_df.to_csv(hdfs_input, sep=',', index=False)
