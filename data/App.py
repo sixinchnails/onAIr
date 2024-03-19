@@ -4,7 +4,7 @@ import pickle as pk
 from flask_expects_json import expects_json
 from pyhive import hive
 from datetime import datetime
-from data.models.transformer import vad_calculate
+from data.models.Transformer import vad_calculate
 import scipy.spatial.distance as distance
 from flask_restx import Api
 import numpy as np
@@ -34,27 +34,29 @@ hive_con = hive.Connection(
     auth=auth
 )
 
-
 pca_model = pk.load(open("models/pca.pkl", 'rb'))
 schema = {
-  "type": "object",
-  "properties": {
-    "story": { "type": "string" },
-    "popularity": { "type": "number" },
-    "acousticness": {"type": "number"},
-    "danceability": {"type": "number"},
-    "instrumentalness": {"type": "number"},
-    "liveness": {"type": "number"},
-    "loudness": {"type": "number"},
-    "speechiness": {"type": "number"},
-    "tempo": {"type": "number"}
-  },
-  "required": ["story", "popularity", "acousticness", "danceability", "instrumentalness", "liveness", "loudness", "speechiness", "tempo"]
+    "type": "object",
+    "properties": {
+        "story": {"type": "string"},
+        "popularity": {"type": "number"},
+        "acousticness": {"type": "number"},
+        "danceability": {"type": "number"},
+        "instrumentalness": {"type": "number"},
+        "liveness": {"type": "number"},
+        "loudness": {"type": "number"},
+        "speechiness": {"type": "number"},
+        "tempo": {"type": "number"}
+    },
+    "required": ["story", "popularity", "acousticness", "danceability", "instrumentalness", "liveness", "loudness",
+                 "speechiness", "tempo"]
 }
+
 
 @app.route('/test', methods=['GET'])
 def index():
     return "test"
+
 
 @app.route('/hadoop/songs', methods=['POST'])
 @expects_json(schema)
@@ -62,6 +64,7 @@ def recommendation():
     global pca_model
     req = request.get_json()
 
+    # User's story and sentimental score
     story = req['story']
     v_score, a_score = vad_calculate(story)
 
@@ -88,7 +91,7 @@ def recommendation():
     cursor.execute(query)
 
     closest_cluster = None
-    max_similarity = -1  # Initialize with a low value
+    max_similarity = -1
 
     # Iterate through the results to find the closest cluster
     for row in cursor:
@@ -105,7 +108,6 @@ def recommendation():
 
     # Replace feat_0, feat_1, etc. with the actual column names in your DataFrame
     feat_query = f"SELECT song_id, cluster, popularity, {select_clause} FROM k_means_data_points_{date} WHERE cluster = {closest_cluster}"
-    #interp_query = f"SELECT {select_clause} FROM k_means_interp_{date} WHERE cluster = {closest_cluster}"
     interp_query = f"SELECT {select_clause} FROM k_means_interp_{date} WHERE cluster = {closest_cluster}"
 
     cursor.execute(interp_query)
@@ -129,29 +131,30 @@ def recommendation():
 
     # Sort the list by cosine similarity in descending order (highest similarity first)
     closest_rows.sort(key=lambda x: x[1], reverse=True)
-    
+
     minimum_cnt = min(50, len(closest_rows))
-    
+
     random_indexes = random.sample(range(minimum_cnt), 10)
 
     # Get the top three closest rows
     top_fifty_closest_rows = closest_rows[:min(50, len(closest_rows))]
-    
+
     song_ids = []
 
     for idx in random_indexes:
         song_ids.append(top_fifty_closest_rows[idx][0])
-    
+
     # Extract only the song IDs from the pairs
-    #song_ids = [pair[0] for pair in top_fifty_closest_rows]
+    # song_ids = [pair[0] for pair in top_fifty_closest_rows]
     response_data = {'song_ids': song_ids}
 
     # Convert the song IDs to a JSON string
 
     return jsonify(response_data), 200
 
+
 if __name__ == "__main__":
     from waitress import serve
-    serve(app, host='0.0.0.0', port=5000)#, threaded=True)
-#    app.run(host="0.0.0.0", port=5000, debug=True)
 
+    serve(app, host='0.0.0.0', port=5000)  # , threaded=True)
+#    app.run(host="0.0.0.0", port=5000, debug=True)

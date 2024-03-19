@@ -5,13 +5,13 @@ from pyspark.ml.clustering import KMeans
 from pyspark.sql.functions import concat_ws
 from pyspark.sql.types import StructType, StructField, IntegerType, DoubleType, StringType
 from pyspark.ml.evaluation import ClusteringEvaluator
-from data.models.kmeans_feature_imp import KMeansInterp
+from data.models.Kmeans_Feature_Imp import KMeansInterp
 
 # Create a SparkSession
 spark = SparkSession.builder \
     .master("yarn") \
     .appName("KMeansExample") \
-    .config("data.sql.warehouse.dir", "/user/hive/warehouse") \
+    .config("data.mysql.warehouse.dir", "/user/hive/warehouse") \
     .enableHiveSupport() \
     .getOrCreate()
 
@@ -19,7 +19,7 @@ spark = SparkSession.builder \
 data = spark.read.csv("hdfs:///test/mapreduce.csv", header=True, inferSchema=True)
 feat_data = data.toPandas()
 
-# Select the feature columns (exclude the first column)
+# Select the feature columns, excluding the 1st column.
 feature_cols = [col for col in data.columns if col.startswith('feat_')]
 assembler = VectorAssembler(inputCols=feature_cols, outputCol="features")
 data = assembler.transform(data)
@@ -58,18 +58,17 @@ kms = KMeansInterp(
 # Step 5-1: Get feature importance of each cluster and write to hdfs
 cluster_ids = list(kms.feature_importances_.keys())
 
-arr = []
+feature_imp_cols = []
 
 for cid in cluster_ids:
-    # arr.append([cid] + list(map(str, kms.feature_importances_[cid][:len(feature_cols)])))
-    tmp = [cid]
+    cluster_feat_imp = [cid]
 
-    for featid in range(len(feature_cols)):
-        tmp.append(str(kms.feature_importances_[cid][featid][1]))
+    for feat_id in range(len(feature_cols)):
+        cluster_feat_imp.append(str(kms.feature_importances_[cid][feat_id][1]))
 
-    arr.append(tmp)
+    feature_imp_cols.append(cluster_feat_imp)
 
-df = spark.createDataFrame(arr)
+df = spark.createDataFrame(feature_imp_cols)
 interp_col_names = ["Cluster"] + feature_cols
 
 for i, col_name in enumerate(df.columns):

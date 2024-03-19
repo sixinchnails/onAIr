@@ -1,9 +1,8 @@
 import re
 from datetime import datetime
-from spotifyAPI import getAPIObject
+from API import getAPIObject
 
 sp = getAPIObject()
-
 
 # Find playlists based on categorical keywords
 def get_categories(search_category):

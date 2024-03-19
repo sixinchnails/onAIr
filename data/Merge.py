@@ -1,8 +1,7 @@
 import sqlite3, time
 import pandas as pd
 import configparser
-
-from data.spotify.spotifyAPI import getAPIObject
+from data.spotify.API import getAPIObject
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -13,17 +12,14 @@ sqlite_file = config['SPOTIFY']['sqlite_file']
 
 conn = sqlite3.connect(sqlite_file)
 conn.text_factory = bytes
-
 cursor = conn.cursor()
 
-#컬럼명 읽기
+# Read Columns
 cursor.execute("PRAGMA table_info(audio_features)")
 
 columns = cursor.fetchall()
 
 column_names = [column[1].decode('utf-8') for column in columns]
-
-#print(column_names)
 
 start = time.time()
 sql_read_feature = "SELECT id, acousticness, danceability, energy, instrumentalness, liveness, loudness, speechiness, tempo, valence FROM audio_features"
@@ -32,12 +28,12 @@ sql_read_popularity = "SELECT id, popularity from tracks"
 popularity_df = pd.read_sql_query(sql_read_popularity, conn)
 feature_df = pd.read_sql_query(sql_read_feature, conn)
 
-#Pop(Feat + Popularity)
+# Add popularity to Spotify Dataframe
 pop_df = pd.merge(popularity_df, feature_df, on='id')
 pop_df = pop_df[pop_df['id'].notna()]
 pop_df['id'] = pop_df['id'].str.decode('utf-8')
 
-#레코드 읽기
+# Read Records
 kpop_csv_dir = config['SPOTIFY']['track_data']
 kpop_df = pd.read_csv (kpop_csv_dir)
 
@@ -53,7 +49,7 @@ print((end - start) * 10 ** 3, "ms")
 cursor.close()
 conn.close()
 
-#Kpop Spotify Popularity 추가하는 코드
+# Add popularity to Kpop Dataframe
 sp = getAPIObject()
 batch_size = 50
 

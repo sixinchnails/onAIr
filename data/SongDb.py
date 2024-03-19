@@ -28,7 +28,7 @@ exc_song_df = hdfs_df.drop('id', axis=1).drop('popularity', axis=1)
 
 scaled_songs_df = pd.DataFrame(neg_scaler.fit_transform(exc_song_df), columns=exc_song_df.columns)
 
-# Maintain 95% distribution
+# Maintain 95% distribution of original features
 pca = PCA(n_components=0.95)
 pca_transformed = pca.fit_transform(scaled_songs_df)
 pk.dump(pca, open("models/pca.pkl", "wb"))
