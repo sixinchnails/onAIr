@@ -1,13 +1,15 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import os, pickle as pk, pandas as pd, numpy as np
+import pickle as pk
 from flask_expects_json import expects_json
 from pyhive import hive
 from datetime import datetime
-from sentiment import vad_calculate
-import scipy.spatial.distance as distance, json
-from flask_restx import Api, Resource
-import numpy as np, random
+from data.models.transformer import vad_calculate
+import scipy.spatial.distance as distance
+from flask_restx import Api
+import numpy as np
+import random
+import configparser
 
 app = Flask(__name__)
 api = Api(app)
@@ -33,7 +35,7 @@ hive_con = hive.Connection(
 )
 
 
-pca_model = pk.load(open("pca.pkl", 'rb'))
+pca_model = pk.load(open("models/pca.pkl", 'rb'))
 schema = {
   "type": "object",
   "properties": {
@@ -50,17 +52,9 @@ schema = {
   "required": ["story", "popularity", "acousticness", "danceability", "instrumentalness", "liveness", "loudness", "speechiness", "tempo"]
 }
 
-@app.route('/hadoop', methods=['GET'])
+@app.route('/test', methods=['GET'])
 def index():
-    return ""
-
-@app.route('/hadoop/hello', methods=['GET'])
-def hello():
-    return "hello world!"
-
-@app.route('/hadoop/ssafy', methods=['GET'])
-def ssafy():
-    return "ssafy"
+    return "test"
 
 @app.route('/hadoop/songs', methods=['POST'])
 @expects_json(schema)
@@ -74,12 +68,11 @@ def recommendation():
     x = [req['acousticness'], req['danceability'], a_score, req['instrumentalness'], req['liveness'],
          req['loudness'], req['speechiness'], req['tempo'], v_score]
 
-    pca_model = pk.load(open("pca.pkl", 'rb'))
+    pca_model = pk.load(open("models/pca.pkl", 'rb'))
     result = pca_model.transform(np.array(x).reshape(1, -1))[0]
 
     cursor = hive_con.cursor()
     date = datetime.today().strftime("%Y%m%d")
-    date = "20231005"
 
     table_name = "k_means_centroids_" + date
     cursor.execute(f"DESCRIBE {table_name}")
@@ -87,10 +80,6 @@ def recommendation():
 
     feat_cols = [column[0] for column in table_schema if column[0].startswith('feat_')]
 
-    # Create a comma-separated list of 'feat_x' columns
-    feat_columns_str = ', '.join(feat_cols)
-
-    #test_query = f"SELECT song_id, cluster, popularity, {feat_columns_str} FROM {table_name}"
     # Construct the SQL query to calculate cosine similarity and select the closest cluster
     query = f"SELECT cluster, " + " + ".join([f"feat_{i} * {result[i]}" for i in range(len(feat_cols))]) + \
             f" AS similarity FROM {table_name}"
@@ -111,8 +100,6 @@ def recommendation():
             max_similarity = similarity
             closest_cluster = cluster
 
-    #feat_query = f"SELECT song_id, cluster, popularity, feat_0, feat_1, feat_2, feat_3, feat_4, feat_5, feat_6 FROM k_means_data_points_20231002 WHERE cluster = {closest_cluster}"
-    
     # Create the SELECT clause for feature columns based on feature_cols
     select_clause = ", ".join([f"{col}" for col in feat_cols])
 

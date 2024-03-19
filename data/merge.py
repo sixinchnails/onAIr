@@ -1,10 +1,8 @@
 import sqlite3, time
 import pandas as pd
 import configparser
-import spotipy
-from spotipy.oauth2 import SpotifyOAuth
 
-from spotifyAPI import getAPIObject
+from data.spotify.spotifyAPI import getAPIObject
 
 config = configparser.ConfigParser()
 config.read('config.ini')

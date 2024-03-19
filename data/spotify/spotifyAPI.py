@@ -13,19 +13,13 @@ SCOPE = ['user-library-read',
 properties = configparser.ConfigParser()
 properties.read('config.ini')
 
-#USER_ID = properties.get('CONFIG', 'USER_ID')
 REDIRECT_URI = properties.get('CONFIG', 'REDIRECT_URI')
 CLIENT_ID = properties.get('CONFIG', 'CLIENT_ID')
 CLIENT_SECRET = properties.get('CONFIG', 'CLIENT_SECRET')
 
-print(REDIRECT_URI)
-print(CLIENT_SECRET)
-print(CLIENT_ID)
-
 def getAPIObject():
     auth_manager = SpotifyOAuth(
         scope=SCOPE,
-        #username=USER_ID,
         redirect_uri=REDIRECT_URI,
         client_id=CLIENT_ID,
         client_secret=CLIENT_SECRET)
