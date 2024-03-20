@@ -6,17 +6,24 @@ from pyspark.sql.functions import concat_ws
 from pyspark.sql.types import StructType, StructField, IntegerType, DoubleType, StringType
 from pyspark.ml.evaluation import ClusteringEvaluator
 from data.models.Kmeans_Feature_Imp import KMeansInterp
+import configparser
+
+
+config = configparser.ConfigParser()
+config.read('config.ini')
+hdfs_dir = config['SPARK']['hdfs']
+warehouse_dir = config['SPARK']['warehouse']
 
 # Create a SparkSession
 spark = SparkSession.builder \
     .master("yarn") \
-    .appName("KMeansExample") \
-    .config("data.mysql.warehouse.dir", "/user/hive/warehouse") \
+    .appName("KMeansApp") \
+    .config("data.mysql.warehouse.dir", warehouse_dir + "warehouse") \
     .enableHiveSupport() \
     .getOrCreate()
 
 # Load the data
-data = spark.read.csv("hdfs:///test/mapreduce.csv", header=True, inferSchema=True)
+data = spark.read.csv("hdfs:///" + hdfs_dir + "mapreduce.csv", header=True, inferSchema=True)
 feat_data = data.toPandas()
 
 # Select the feature columns, excluding the 1st column.
@@ -25,10 +32,9 @@ assembler = VectorAssembler(inputCols=feature_cols, outputCol="features")
 data = assembler.transform(data)
 
 k_silhouette_scores = []
+k_start = 2
 
-k_values = range(2, 15)
-
-for k in k_values:
+for k in range(k_start, 15, 1):
     kmeans = KMeans().setK(k)
     model = kmeans.fit(data)
 
@@ -41,10 +47,11 @@ for k in k_values:
 
     k_silhouette_scores.append(silhouette_score)
 
-optimal_k = k_values[k_silhouette_scores.index(max(k_silhouette_scores))]
+
+optimal_k = k_silhouette_scores.index(max(k_silhouette_scores)) + k_start
 
 # Step 4: Create and train the K-Means model
-kmeans = KMeans().setK(optimal_k)  # Set the number of clusters (you can change this)
+kmeans = KMeans().setK(optimal_k)
 model = kmeans.fit(data)
 
 feat_data = feat_data[feat_data.columns.intersection(feature_cols)]
@@ -68,15 +75,14 @@ for cid in cluster_ids:
 
     feature_imp_cols.append(cluster_feat_imp)
 
-df = spark.createDataFrame(feature_imp_cols)
+cluster_df = spark.createDataFrame(feature_imp_cols)
 interp_col_names = ["Cluster"] + feature_cols
 
-for i, col_name in enumerate(df.columns):
-    df = df.withColumnRenamed(col_name, interp_col_names[i])
+for i, col_name in enumerate(cluster_df.columns):
+    cluster_df = cluster_df.withColumnRenamed(col_name, interp_col_names[i])
 
-kms_hdfs_path = "hdfs:///test/kmeans_feature_importance.csv"
-
-df.write.mode("overwrite").csv(kms_hdfs_path)
+cluster_df.write.mode("overwrite").csv("hdfs:///" + hdfs_dir +
+                               "kmeans_feature_importance.csv")
 
 # Step 5-2: Get cluster centers and assign labels
 cluster_centers = model.clusterCenters()
@@ -102,7 +108,7 @@ centroid_data = spark.createDataFrame(cluster_centers_with_number, schema)
 
 # Step 7: Create a temporary view for k_means_results
 results.createOrReplaceTempView("k_means_results")
-df.createOrReplaceTempView("k_means_interp_view")
+cluster_df.createOrReplaceTempView("k_means_interp_view")
 
 # Step 8: Generate a timestamp for the table name
 timestamp = datetime.now().strftime("%Y%m%d")
