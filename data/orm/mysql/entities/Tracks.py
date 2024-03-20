@@ -6,8 +6,8 @@ Base = declarative_base()
 session = get_session('spotify_music')
 
 # Create a MySQL connection
-conn = get_db_connection()
-cursor = conn.cursor()
+# conn = get_db_connection()
+# cursor = conn.cursor()
 
 class Tracks(Base):
     __tablename__ = 'tracks'
